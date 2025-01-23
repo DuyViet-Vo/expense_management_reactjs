@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { ArrowRight, PieChart, DollarSign, TrendingUp } from 'lucide-react';
@@ -16,21 +17,48 @@ const Feature = ({ icon: Icon, title, description }) => {
 };
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
+  // Hàm kiểm tra token
+  const checkTokenValidity = (token) => {
+    try {
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      return decoded.exp > currentTime;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      const isValid = checkTokenValidity(token);
+      if (isValid) {
+        navigate('/dashboard'); // Chuyển hướng đến Dashboard nếu token hợp lệ
+      } else {
+        localStorage.removeItem('token'); // Xóa token nếu hết hạn
+        navigate('/home'); // Điều hướng về Home nếu cần
+      }
+    }
+  }, [navigate]);
+
   const features = [
     {
       icon: PieChart,
-      title: "Phân tích chi tiêu",
-      description: "Hiểu rõ các khoản chi tiêu của bạn thông qua biểu đồ trực quan"
+      title: 'Phân tích chi tiêu',
+      description: 'Hiểu rõ các khoản chi tiêu của bạn thông qua biểu đồ trực quan'
     },
     {
       icon: DollarSign,
-      title: "Quản lý ngân sách",
-      description: "Lập kế hoạch và theo dõi ngân sách một cách hiệu quả"
+      title: 'Quản lý ngân sách',
+      description: 'Lập kế hoạch và theo dõi ngân sách một cách hiệu quả'
     },
     {
       icon: TrendingUp,
-      title: "Báo cáo tài chính",
-      description: "Xem báo cáo chi tiết về tình hình tài chính của bạn"
+      title: 'Báo cáo tài chính',
+      description: 'Xem báo cáo chi tiết về tình hình tài chính của bạn'
     }
   ];
 

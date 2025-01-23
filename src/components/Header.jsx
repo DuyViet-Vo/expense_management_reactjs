@@ -22,7 +22,9 @@ function Header() {
     <header className="bg-gradient-to-r from-green-500 to-green-600 text-white py-8 px-4 shadow-lg">
       <div className="max-w-4xl mx-auto flex justify-between items-center">
         <div>
-          <h1 className="text-4xl font-bold mb-2 animate-fade-in">Quản Lý Tiền Bạc</h1>
+          <h1 className="text-4xl font-bold mb-2 animate-fade-in">
+            Quản Lý Tiền Bạc
+          </h1>
           <p className="text-xl opacity-90">
             Giải pháp quản lý tài chính cá nhân dễ dàng và hiệu quả!
           </p>
